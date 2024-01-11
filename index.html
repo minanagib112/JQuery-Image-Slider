@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Slider</title>
+    <style>
+        #slider-container {
+            width: 500px;
+            overflow: hidden;
+            position: relative;
+            margin: 50px auto;
+        }
+
+        #slider {
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        #slider img {
+            width: 100%;
+        }
+
+        .slide {
+            width: 100%;
+            flex: 0 0 auto;
+        }
+
+        #stopButton {
+            display: block;
+            margin: 10px auto;
+            cursor: pointer;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="slider-container">
+        <div id="slider">
+            <div class="slide"><img src="imgs/image1.jpg" alt=""></div>
+            <div class="slide"><img src="imgs/image2.jpg" alt=""></div>
+            <div class="slide"><img src="imgs/image3.jpg" alt=""></div>
+
+            <!-- Add more slides as needed -->
+        </div>
+    </div>
+
+    <button id="stopButton">Stop</button>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+        var slider = $("#slider");
+        var slides = $(".slide");
+        var currentIndex = 0;
+        var intervalId;
+
+        function startSlider() {
+            intervalId = setInterval(function () {
+                nextSlide();
+            }, 2000);
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            var translateValue = -currentIndex * 100 + "%";
+            slider.css("transform", "translateX(" + translateValue + ")");
+        }
+
+        $("#stopButton").on("click", function () {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+                $(this).text("Resume");
+            } else {
+                startSlider();
+                $(this).text("Stop");
+            }
+        });
+
+        startSlider();
+    </script>
+
+</body>
+
+</html>
